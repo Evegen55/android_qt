@@ -1,10 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtSensors 5.12
+import QtSensors 5.12 as Sensors
 
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
+    width: 720
+    height: 1280
     title: qsTr("Scroll")
 
     ScrollView {
@@ -12,9 +14,9 @@ ApplicationWindow {
 
         ListView {
             width: parent.width
-            model: 20
+            model: QmlSensors.sensorTypes()
             delegate: ItemDelegate {
-                text: "Item " + (index + 1)
+                text: modelData
                 width: parent.width
             }
         }
