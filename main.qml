@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.12
 import QtSensors 5.11
 import QtSensors 5.11 as Sensors
 
@@ -9,7 +9,7 @@ ApplicationWindow {
     height: 1280
     title: qsTr("Sensors")
 
-    //menu containing two menu items
+    //    menu containing two menu items
     menuBar: MenuBar {
         Menu {
             title: qsTr("File")
