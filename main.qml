@@ -7,10 +7,9 @@ ApplicationWindow {
     visible: true
     width: 720
     height: 1280
-    title: qsTr("Scroll")
+    title: qsTr("Sensors")
 
     //    models
-
     ListModel {
         id: sensorListDataModel
         property var sensorList: null
@@ -22,7 +21,6 @@ ApplicationWindow {
     }
 
     //  views
-
     ScrollView {
         anchors.fill: parent
 
@@ -30,9 +28,25 @@ ApplicationWindow {
             width: parent.width
             model: sensorListDataModel.sensorList
             delegate: ItemDelegate {
-                text: modelData //QmlSensors.defaultSensorForType(modelData)
+                id: sensorListItemDelegate
+                text: modelData
                 width: parent.width
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (modelData == "QCompass") {
+                            parent.text = compass.reading.azimuth
+                        }
+                    }
+                }
             }
         }
+    }
+
+    // sensors of intrest
+    Compass {
+        id: compass
+        active: true
     }
 }
