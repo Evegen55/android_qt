@@ -9,6 +9,21 @@ ApplicationWindow {
     height: 1280
     title: qsTr("Sensors")
 
+    //menu containing two menu items
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("File")
+            MenuItem {
+                text: qsTr("&Open")
+                onTriggered: console.log("Open action triggered");
+            }
+            MenuItem {
+                text: qsTr("Exit")
+                onTriggered: Qt.quit();
+            }
+        }
+    }
+
     //    models
     ListModel {
         id: sensorListDataModel
@@ -27,16 +42,34 @@ ApplicationWindow {
         ListView {
             width: parent.width
             model: sensorListDataModel.sensorList
+
             delegate: ItemDelegate {
                 id: sensorListItemDelegate
-                text: modelData
                 width: parent.width
+
+                Text {
+                    id: sensorListItemDelegateText
+                    text: modelData
+                    color: "white"
+                }
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         if (modelData == "QCompass") {
-                            parent.text = compass.reading.azimuth
+                            compass.active = true
+                        }
+                    }
+                }
+
+                // sensors of interest
+                Compass {
+                    id: compass
+                    active: false
+
+                    onReadingChanged: {
+                        if (modelData == "QCompass") {
+                            sensorListItemDelegateText.text = reading.azimuth
                         }
                     }
                 }
@@ -44,9 +77,4 @@ ApplicationWindow {
         }
     }
 
-    // sensors of intrest
-    Compass {
-        id: compass
-        active: true
-    }
 }
