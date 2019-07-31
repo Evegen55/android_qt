@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
-import QtSensors 5.12
-import QtSensors 5.12 as Sensors
+import QtSensors 5.11
+import QtSensors 5.11 as Sensors
 
 ApplicationWindow {
     visible: true
@@ -9,14 +9,28 @@ ApplicationWindow {
     height: 1280
     title: qsTr("Scroll")
 
+    //    models
+
+    ListModel {
+        id: sensorListDataModel
+        property var sensorList: null
+
+        Component.onCompleted: {
+            sensorList = QmlSensors.sensorTypes();
+            //                 console.log(types.join(", "));
+        }
+    }
+
+    //  views
+
     ScrollView {
         anchors.fill: parent
 
         ListView {
             width: parent.width
-            model: QmlSensors.sensorTypes()
+            model: sensorListDataModel.sensorList
             delegate: ItemDelegate {
-                text: modelData
+                text: modelData //QmlSensors.defaultSensorForType(modelData)
                 width: parent.width
             }
         }
