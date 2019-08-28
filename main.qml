@@ -19,7 +19,10 @@ ApplicationWindow {
             }
             MenuItem {
                 text: qsTr("Exit")
-                onTriggered: Qt.quit();
+                onTriggered: {
+                    console.log("Application closed.");
+                    Qt.quit();
+                }
             }
         }
     }
@@ -87,9 +90,39 @@ ApplicationWindow {
                     color: "#e0e0a8"
                 }
 
+                Button {
+                    id: itemActivateButton
+                    visible: false
+                    enabled: false
+                    width: 100
+                    x: parent.width - parent.borderWidth - width
+                    y: parent.height - height
+
+                    Text {
+                        anchors.fill: parent
+                        text: qsTr("press to stop")
+                        font.pointSize: 12
+                        color: "#e0e0a8"
+                    }
+
+                    //                    todo
+                    onClicked: {
+                        if (modelData == "QCompass") {
+                            compass.active = false
+                            enabled = false
+                        }
+                    }
+
+                }
+
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
+                        //mutual behaviour
+                        itemActivateButton.visible = true
+                        itemActivateButton.enabled = true
+
+                        //behaviour depends on sensor
                         if (modelData == "QCompass") {
                             sensorListItemDescription.text = compass.description
                             compass.active = true
